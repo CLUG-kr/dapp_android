@@ -3,6 +3,7 @@ package com.example.yoons.da;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
             //return output.toString();
             String result = output.toString();
+            textView.setMovementMethod(new ScrollingMovementMethod());
             //TextView textView = (TextView) findViewById(R.id.view);
             textView.setText(result);
 
