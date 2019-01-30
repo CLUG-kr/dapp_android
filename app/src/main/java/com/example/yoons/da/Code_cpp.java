@@ -53,7 +53,7 @@ public class Code_cpp extends AppCompatActivity {
 
     private void writeToFile(String data,Context context) {
         try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("config.txt", Context.MODE_PRIVATE));
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("config.cpp", Context.MODE_PRIVATE));
             outputStreamWriter.write(data);
             outputStreamWriter.close();
             Log.e("Success", "File write Success ");
@@ -73,7 +73,7 @@ public class Code_cpp extends AppCompatActivity {
         String ret = "";
 
         try {
-            InputStream inputStream = context.openFileInput("config.txt");
+            InputStream inputStream = context.openFileInput("config.cpp");
 
             if ( inputStream != null ) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -82,7 +82,7 @@ public class Code_cpp extends AppCompatActivity {
                 StringBuilder stringBuilder = new StringBuilder();
 
                 while ( (receiveString = bufferedReader.readLine()) != null ) {
-                    stringBuilder.append(receiveString);
+                    stringBuilder.append(receiveString).append("\n");
                 }
 
                 inputStream.close();
@@ -102,14 +102,14 @@ public class Code_cpp extends AppCompatActivity {
 
             // Executes the command.
 
-           Process process = Runtime.getRuntime().exec("system/bin/cat/config.txt/data/data/com.example.yoons.da++");
+           //Process process = Runtime.getRuntime().exec("system/bin/ls/data/data/com.example.yoons.da/files");
+            Process process = Runtime.getRuntime().exec("g++ cofing.cpp;./a.out");
 ///system/bin/mkdir /data/data/com.example.yoons.da;
           //  Process process = Runtime.getRuntime().exec("/data/local/bin:/sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin\n  ");
             // Reads stdout.
             // NOTE: You can write to stdin of the command using
             //       process.getOutputStream().7
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             int read;
             char[] buffer = new char[4096];
             StringBuffer output = new StringBuffer();
