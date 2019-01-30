@@ -1,7 +1,9 @@
 package com.example.yoons.da;
 
+import android.Manifest;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -13,11 +15,14 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 
+import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+
 
 
 public class Code_cpp extends AppCompatActivity {
@@ -31,6 +36,8 @@ public class Code_cpp extends AppCompatActivity {
         TextView textView = (TextView) findViewById(R.id.view);
         textView.setMovementMethod(new ScrollingMovementMethod());
         context = this;
+
+
     }
 
     public void compilebutton(View v) {
@@ -53,7 +60,7 @@ public class Code_cpp extends AppCompatActivity {
 
     private void writeToFile(String data,Context context) {
         try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("config.cpp", Context.MODE_PRIVATE));
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("config.c", Context.MODE_PRIVATE));
             outputStreamWriter.write(data);
             outputStreamWriter.close();
             Log.e("Success", "File write Success ");
@@ -65,15 +72,16 @@ public class Code_cpp extends AppCompatActivity {
 
     public void savebutton(View v){
         String msg = readFromFile(context);
-        TextView textView = (TextView) findViewById(R.id.view);
-        textView.setText(msg);
+        EditText edit = (EditText) findViewById(R.id.edit_text);
+        edit.setText(msg);
+
     }
     private String readFromFile(Context context) {
 
         String ret = "";
 
         try {
-            InputStream inputStream = context.openFileInput("config.cpp");
+            InputStream inputStream = context.openFileInput("config.c");
 
             if ( inputStream != null ) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -99,11 +107,17 @@ public class Code_cpp extends AppCompatActivity {
     }
     public void aa(View v){
         try {
+            /*File path = context.getFilesDir();
+            path.setReadable(true); //Sets all permissions for every owner back to read-only
+            path.setWritable(true); //Sets the owner's permissions to writeable
+            path.setExecutable(true);*/
+
 
             // Executes the command.
 
            //Process process = Runtime.getRuntime().exec("system/bin/ls/data/data/com.example.yoons.da/files");
-            Process process = Runtime.getRuntime().exec("g++ cofing.cpp;./a.out");
+            // Process process = Runtime.getRuntime().exec("chmod -777 /data/data/com.example.yoons.da&&g++ config.cpp&&./a.out");
+            Process process = Runtime.getRuntime().exec("chmod -777 /data/data/com.example.yoons.da&&gcc config.c -o a&&./a");
 ///system/bin/mkdir /data/data/com.example.yoons.da;
           //  Process process = Runtime.getRuntime().exec("/data/local/bin:/sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin\n  ");
             // Reads stdout.
@@ -116,15 +130,49 @@ public class Code_cpp extends AppCompatActivity {
             while ((read = reader.read(buffer)) > 0) {
                 output.append(buffer, 0, read);
             }
+            //reader.close();
+
+            // Waits for the command to finish.
+            process.waitFor();
+             process = Runtime.getRuntime().exec("gcc config.c -o a");
+///system/bin/mkdir /data/data/com.example.yoons.da;
+            //  Process process = Runtime.getRuntime().exec("/data/local/bin:/sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin\n  ");
+            // Reads stdout.
+            // NOTE: You can write to stdin of the command using
+            //       process.getOutputStream().7
+             reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+
+            output = new StringBuffer();
+            while ((read = reader.read(buffer)) > 0) {
+                output.append(buffer, 0, read);
+            }
             reader.close();
 
             // Waits for the command to finish.
             process.waitFor();
+            process = Runtime.getRuntime().exec("./a");
+///system/bin/mkdir /data/data/com.example.yoons.da;
+            //  Process process = Runtime.getRuntime().exec("/data/local/bin:/sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin\n  ");
+            // Reads stdout.
+            // NOTE: You can write to stdin of the command using
+            //       process.getOutputStream().7
+            reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
+
+            output = new StringBuffer();
+            while ((read = reader.read(buffer)) > 0) {
+                output.append(buffer, 0, read);
+            }
+            reader.close();
+
+            // Waits for the command to finish.
+            process.waitFor();
             //return output.toString();
             String result=output.toString();
             TextView textView = (TextView) findViewById(R.id.view);
             textView.setText(result);
+            Log.v("result",output.toString());
 
         } catch (IOException e) {
 
