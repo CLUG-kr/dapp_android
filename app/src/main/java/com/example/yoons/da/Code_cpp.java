@@ -117,7 +117,7 @@ public class Code_cpp extends AppCompatActivity {
 
            //Process process = Runtime.getRuntime().exec("system/bin/ls/data/data/com.example.yoons.da/files");
             // Process process = Runtime.getRuntime().exec("chmod -777 /data/data/com.example.yoons.da&&g++ config.cpp&&./a.out");
-            Process process = Runtime.getRuntime().exec("chmod -777 /data/data/com.example.yoons.da&&gcc config.c -o a&&./a");
+            Process process = Runtime.getRuntime().exec("chmod 777  /data/data/com.example.yoons.da/config.cpp");
 ///system/bin/mkdir /data/data/com.example.yoons.da;
           //  Process process = Runtime.getRuntime().exec("/data/local/bin:/sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin\n  ");
             // Reads stdout.
@@ -130,11 +130,15 @@ public class Code_cpp extends AppCompatActivity {
             while ((read = reader.read(buffer)) > 0) {
                 output.append(buffer, 0, read);
             }
-            //reader.close();
+            reader.close();
 
             // Waits for the command to finish.
             process.waitFor();
-             process = Runtime.getRuntime().exec("gcc config.c -o a");
+
+
+            Log.v("MSG","1");
+             process = Runtime.getRuntime().exec("ls");//gcc config.c -o a");
+             //process=Runtime.getRuntime().exec("gcc config.c");
 ///system/bin/mkdir /data/data/com.example.yoons.da;
             //  Process process = Runtime.getRuntime().exec("/data/local/bin:/sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin\n  ");
             // Reads stdout.
@@ -151,7 +155,11 @@ public class Code_cpp extends AppCompatActivity {
 
             // Waits for the command to finish.
             process.waitFor();
-            process = Runtime.getRuntime().exec("./a");
+            Log.v("MSG","2");
+
+
+
+            process=Runtime.getRuntime().exec("g++ config.cpp ");
 ///system/bin/mkdir /data/data/com.example.yoons.da;
             //  Process process = Runtime.getRuntime().exec("/data/local/bin:/sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin\n  ");
             // Reads stdout.
@@ -168,6 +176,7 @@ public class Code_cpp extends AppCompatActivity {
 
             // Waits for the command to finish.
             process.waitFor();
+            Log.v("MSG","3");
             //return output.toString();
             String result=output.toString();
             TextView textView = (TextView) findViewById(R.id.view);
